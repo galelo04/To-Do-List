@@ -1,0 +1,68 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    height: 100vh;
+    background: url("assets/1732235.webp") no-repeat;
+}
+.content{
+    height: 100%;
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap:1rem;
+}
+
+.sidebar{
+    position: relative;
+    padding: 50px;
+    height: 100%;
+    .sideBg{
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        background-color: black;
+        opacity: .4;
+    }
+}
+.main{
+    display: flex;
+    flex-direction: column;
+    .header{
+        background-color: black;
+        color:white;
+        margin: 1rem;
+        margin-left: 0 ;
+        width: max-content;
+    }
+    .mainContent{
+        display: flex;
+        flex: 1;
+        gap:1.5rem;
+        .listOrg , .taskOrg{
+            background-color: black;
+            color:white;
+            flex:1;
+            border-radius: 1rem;
+            padding:1rem;
+        }
+        .taskOrg{
+            min-width: 30rem;
+        }
+        .listOrg{
+            min-width: 15rem;
+            display: flex;
+            flex-direction: column;
+            .tasks{
+                margin-bottom: auto;
+            }
+            #newTask{
+                align-self: flex-end;
+            }
+        }
+        padding: 0 4rem 2rem 0;
+    }
+}

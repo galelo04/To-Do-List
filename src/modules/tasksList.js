@@ -21,8 +21,9 @@ function createList(title){
         return removedTask;
     };
     const getList = ()=> list;
+    const getTask = (taskId) =>list[taskId];
     
-    return{getTitle,setTitle,addTask,removeTask,getId,setId,getList};
+    return{getTitle,setTitle,addTask,removeTask,getId,setId,getList,getTask};
 }
 
 export{createList}

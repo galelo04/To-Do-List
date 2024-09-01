@@ -26,8 +26,10 @@
                 <div class="taskOrg">taskorg</div>
             </div>
         </div>
-        <dialog class = "newTaskDialog">
+        <dialog>
             <form action="" method="dialog">
+                <input type="hidden" id="taskId" name="taskId">
+                <input type="hidden" id="dialogType" name="dialogType">
                 <ul>
                     <li>
                         <label for="taskTitle">Title: </label>
@@ -35,7 +37,7 @@
                     </li>
                     <li>
                         <label for="taskDescription">Description</label>
-                        <textarea name="taskDescription" id="taskDescription" name="desc" ></textarea>
+                        <textarea id="taskDescription" name="desc" ></textarea>
                     </li>
                     <li>
                         <label for="taskPriority">Priority</label>

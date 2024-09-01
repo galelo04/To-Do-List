@@ -6,8 +6,8 @@ const UI = (function(){
     let newTaskBtn;
     let tasksTab;
     let currentListTitle;
-    let newTaskDialog;
-    let newTaskForm;
+    let dialog;
+    let form;
     let closeDialogBtn;
     const init = () =>{
         cacheDOM();
@@ -18,24 +18,37 @@ const UI = (function(){
         currentListTitle = document.querySelector(".listTitle");
         newTaskBtn = document.querySelector("#newTaskBtn");
         tasksTab = document.querySelector(".tasks");
-        newTaskDialog = document.querySelector(".newTaskDialog");
-        newTaskForm = document.querySelector("form");
+        dialog = document.querySelector("dialog");
+        form = document.querySelector("form");
         closeDialogBtn = document.querySelector("#closeDialogBtn");
     };
     const bindEvents = ()=>{
         newTaskBtn.addEventListener("click",()=>{
-            newTaskDialog.showModal();
+            form.dialogType.value = "add";
+            form.title.value = "";
+            form.desc.value = "";
+            form.date.value = "";
+            form.priority.value = "";
+            dialog.showModal();
         });
         closeDialogBtn.addEventListener('click',()=>{
-            newTaskDialog.close();
+            dialog.close();
         });
-        newTaskForm.addEventListener("submit",addTask)
+        form.addEventListener("submit",(event)=>{
+            if(form.dialogType.value === "add")
+                addTask(event);
+            else if(form.dialogType.value === "edit")
+                confirmEdit(event);
+        });
+        tasksTab.addEventListener('click' , editTask);
+        // tasksTab.addEventListener('click' , removeTask);
     };
     const render = ()=>{
         currentListTitle.innerHTML = listsManager.getCurrentList().getTitle();
         renderTasks(listsManager.getCurrentList());
     };
     const renderTasks = (list)=>{
+        tasksTab.innerHTML = "";
         list.getList().forEach(task => {
             if(task!==null){ 
                 const taskEl = document.createElement("div");
@@ -70,17 +83,42 @@ const UI = (function(){
 
         event.preventDefault();
 
-        const title = newTaskForm.title.value;
-        const description = newTaskForm.title.value;
-        const dueDate  =newTaskForm.title.value;
-        const priority = newTaskForm.title.value;
+        const title = form.title.value;
+        const description = form.desc.value;
+        const dueDate  =form.date.value;
+        const priority = form.priority.value;
         applicationManager.newTask(title,description,dueDate,priority);
         render();
-        newTaskDialog.close();
+        dialog.close();
     };
-    const loadDOM = ()=>{
-        listsManager.getCurrentList()
+    const editTask = (event)=>{
+        if(event.target && event.target.classList.contains("editBtn")){
+            const taskEl = event.target.closest(".task");
+            if(taskEl){
+                form.dialogType.value = "edit";
+                const taskId = taskEl.getAttribute("task-id");
+                const task = listsManager.getCurrentList().getTask(taskId);
+                form.title.value = task.getTitle();
+                form.desc.value = task.getDescription();
+                form.date.value = task.getDueDate();
+                form.priority.value = task.getPriority();
+                form.taskId.value = taskId;
+                dialog.showModal();
+            }
+        }
     };
+    const confirmEdit = (event)=>{
+        event.preventDefault();
+        const taskId = form.taskId.value;
+        const task = listsManager.getCurrentList().getTask(taskId);
+        task.setTitle( form.title.value);
+        task.setDescription(form.desc.value);
+        task.setDueDate(form.date.value);
+        task.setPriority(form.priority.value);
+
+        dialog.close();
+        render();
+    }
     return {init}
 })();
 

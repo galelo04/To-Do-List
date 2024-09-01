@@ -58,8 +58,14 @@ body{
             flex-direction: column;
             .tasks{
                 margin-bottom: auto;
+                .task{
+                    background-color: rgb(96, 96, 96);
+                    min-height: 3rem;
+                    display: flex;
+                    align-items: center;
+                }
             }
-            #newTask{
+            #newTaskBtn{
                 align-self: flex-end;
             }
         }

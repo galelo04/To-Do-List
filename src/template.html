@@ -15,19 +15,49 @@
         <div class="main">
             <div class="header">
                 <div class="listTitle">
-                    proname
                 </div>
             </div>
             <div class="mainContent">
                 <div class="listOrg">
                     <div class="tasks">
-                        <div class="task"></div>
                     </div>
-                    <button id="newTask">+ New Task</button>
+                    <button id="newTaskBtn">+ New Task</button>
                 </div>
                 <div class="taskOrg">taskorg</div>
             </div>
         </div>
+        <dialog class = "newTaskDialog">
+            <form action="" method="dialog">
+                <ul>
+                    <li>
+                        <label for="taskTitle">Title: </label>
+                        <input type="text" id="taskTitle" name="title" required>
+                    </li>
+                    <li>
+                        <label for="taskDescription">Description</label>
+                        <textarea name="taskDescription" id="taskDescription" name="desc" ></textarea>
+                    </li>
+                    <li>
+                        <label for="taskPriority">Priority</label>
+                        <select name="priority" id="taskPriority" >
+                            <option value="none" selected="selected">None</option>
+                            <option value="high">High</option>
+                            <option value="medium">Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </li>
+                    <li>
+                        <label for="taskDueDate">Due Date</label>
+                        <input type="datetime-local" name="date" id="taskDueDate">
+                    </li>
+                    <li>
+                        <button type="submit" id="confirmBtn">confirm</button>
+                        <button type="button" id="closeDialogBtn">Close</button>
+                    </li>
+
+                </ul>
+            </form>
+        </dialog>
     </div>
 </body>
 </html>

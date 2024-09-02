@@ -15,6 +15,9 @@ const listsManager = (function(){
         lists[_lastId++]=list;
         _currentList = list;
     };
+    const removeTask = (listId , taskId)=>{
+        return lists[listId].removeTask(taskId);
+    };
     const removeList = listId =>{
         lists[listId]=lists[--_lastId];
         lists[_lastId]=null;
@@ -24,7 +27,7 @@ const listsManager = (function(){
     }
     const getLists = ()=>lists;
 
-    return{getCurrentList,setCurrentList,addList,removeList,addTaskCurrent,changeListOfTask,getLists};
+    return{getCurrentList,setCurrentList,addList,removeList,addTaskCurrent,changeListOfTask,getLists,removeTask};
 })();
 
 export {listsManager};

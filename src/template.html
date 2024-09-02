@@ -8,9 +8,18 @@
 <body>
     <div class="content">
         <div class="sidebar">
-            <div class="sideBg">
+            <div class="sideBg"></div>
+            <div class="logo">
+                <div class="logoIcon"></div>
+                <div class="logoHeader"></div>
             </div>
-            <div class="logo">logo</div>
+            <div class="listsContainer">
+                <div class="newList">
+                    <div class="title">Lists</div>
+                    <button id="newListBtn"><img src="assets/plus-circle-outline.svg" alt=""></button>
+                </div>
+                <div class="lists"></div>
+            </div>
         </div>
         <div class="main">
             <div class="header">
@@ -21,13 +30,15 @@
                 <div class="listOrg">
                     <div class="tasks">
                     </div>
-                    <button id="newTaskBtn">+ New Task</button>
+                    <button id="newTaskBtn"><img src="assets/plus-circle-outline.svg" alt=""></button>
                 </div>
-                <div class="taskOrg">taskorg</div>
+                <div class="taskViewTab">
+                    <div class="taskView"></div>
+                </div>
             </div>
         </div>
-        <dialog>
-            <form action="" method="dialog">
+        <dialog class="taskDialog">
+            <form action="" method="dialog" class="taskForm">
                 <input type="hidden" id="taskId" name="taskId">
                 <input type="hidden" id="dialogType" name="dialogType">
                 <ul>
@@ -42,9 +53,8 @@
                     <li>
                         <label for="taskPriority">Priority</label>
                         <select name="priority" id="taskPriority" >
-                            <option value="none" selected="selected">None</option>
                             <option value="high">High</option>
-                            <option value="medium">Medium</option>
+                            <option value="normal" selected>Normal</option>
                             <option value="low">Low</option>
                         </select>
                     </li>
@@ -53,10 +63,24 @@
                         <input type="datetime-local" name="date" id="taskDueDate">
                     </li>
                     <li>
-                        <button type="submit" id="confirmBtn">confirm</button>
-                        <button type="button" id="closeDialogBtn">Close</button>
+                        <button type="submit" id="confirmTaskBtn">confirm</button>
+                        <button type="button" id="closeTaskDialogBtn">Close</button>
                     </li>
 
+                </ul>
+            </form>
+        </dialog>
+        <dialog class="listDialog">
+            <form action="" method="dialog" class="listForm">
+                <ul>
+                    <li>
+                        <label for="listTitle">List Title: </label>
+                        <input type="text" id="listTitle" name="title" required>
+                    </li>
+                    <li>
+                        <button type="submit" id="confirmListBtn">confirm</button>
+                        <button type="button" id="closeListDialogBtn">Close</button>
+                    </li>
                 </ul>
             </form>
         </dialog>

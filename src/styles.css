@@ -2,10 +2,34 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: Roboto,System-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',  Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 body{
     height: 100vh;
     background: url("assets/1732235.webp") no-repeat;
+}
+p{
+    width: min-content;
+}
+button{
+    cursor: pointer;
+}
+dialog{
+    padding: 50px;
+    position: absolute;
+    font-size: 2rem; 
+    border-radius: 10px;
+    width: 30%;
+    top:50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+ul{
+    list-style: none;
+}
+input{
+    appearance: none;
 }
 .content{
     height: 100%;
@@ -16,7 +40,7 @@ body{
 
 .sidebar{
     position: relative;
-    padding: 50px;
+    padding: 1rem;
     height: 100%;
     .sideBg{
         position: absolute;
@@ -25,8 +49,14 @@ body{
         height: 100%;
         width: 100%;
         background-color: black;
-        opacity: .4;
+        opacity: .5;
+        z-index: -1;
     }
+    .newList{
+        display: flex;
+    }
+
+
 }
 .main{
     display: flex;
@@ -36,39 +66,123 @@ body{
         color:white;
         margin: 1rem;
         margin-left: 0 ;
+        font-size: 2rem;
         width: max-content;
+        padding: .625rem 1rem;
+        border-radius: .625rem;
     }
     .mainContent{
         display: flex;
         flex: 1;
         gap:1.5rem;
-        .listOrg , .taskOrg{
-            background-color: black;
+        .listOrg , .taskViewTab{
+            background-color: rgb(0, 0, 0);
             color:white;
             flex:1;
             border-radius: 1rem;
             padding:1rem;
-        }
-        .taskOrg{
             min-width: 30rem;
+        }
+        .taskViewTab{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .taskView{
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            height: 60%;
+            border-radius: .625rem;
+            padding:1rem;
+            font-size: 2rem;
+            /* background-color: rgb(96, 96, 96); */
+            .taskTitle{
+                font-size: 3rem;
+                font-weight: bold;
+                align-self: center;
+            }
         }
         .listOrg{
             min-width: 15rem;
-            display: flex;
-            flex-direction: column;
+            /* display: flex;
+            flex-direction: column; */
+            #newTaskBtn{
+                position: absolute;
+                bottom: 1rem;
+                right:1rem;
+            }
             .tasks{
-                margin-bottom: auto;
+                height: 37rem;
+                display: flex;
+                flex-direction: column;
+                gap:1rem;
+                overflow: auto;
                 .task{
                     background-color: rgb(96, 96, 96);
                     min-height: 3rem;
                     display: flex;
+                    padding:1rem;
+                    gap:1rem;
+                    border-radius: .625rem;
                     align-items: center;
+                    p{
+                        margin-right: auto;
+                        font-size: 2rem;
+                    }
                 }
             }
-            #newTaskBtn{
-                align-self: flex-end;
+            .task:hover{
+                background-color:rgb(78, 78, 78) ;
             }
+            position: relative;
+            
         }
         padding: 0 4rem 2rem 0;
+    }
+}
+
+.checkbox {
+	width: 40px;
+	height: 40px;
+	background: #ddd;
+	border-radius: 100%;
+	position: relative;
+	box-shadow: 0px 1px 3px rgba(0,0,0,0.5);
+}
+.checkbox label {
+	display: block;
+	width: 30px;
+	height: 30px;
+	border-radius: 100px;
+
+	transition: all .5s ease;
+	cursor: pointer;
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	z-index: 1;
+
+	background: #ffffff;
+	box-shadow:inset 0px 1px 3px rgba(0,0,0,0.5);
+}
+.checkbox input[type=checkbox]:checked + label {
+	background: #8731ef;
+}
+
+#newTaskBtn , #newListBtn , #editBtn , #removeBtn{
+    border: none;
+    background: transparent;
+    img{
+        width: 3rem; 
+        height: 3rem;
+        pointer-events: none;
+        /* or to blue */
+        filter: invert(30%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(90%) contrast(100%);
+    }
+    button:hover{
+        
+            filter: invert(37%) sepia(65%) saturate(7486%) hue-rotate(259deg) brightness(90%) contrast(100%);
+        
     }
 }

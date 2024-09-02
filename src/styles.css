@@ -170,18 +170,16 @@ input{
 	background: #8731ef;
 }
 
-#newTaskBtn , #newListBtn , #editBtn , #removeBtn{
+#newTaskBtn , #newListBtn , .editBtn , .removeBtn{
     border: none;
     background: transparent;
     img{
         width: 3rem; 
         height: 3rem;
-        pointer-events: none;
+        /* pointer-events: none; */
         filter: invert(30%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(90%) contrast(100%);
     }
-    button:hover{
-        img{
-            filter: invert(37%) sepia(65%) saturate(7486%) hue-rotate(259deg) brightness(90%) contrast(100%);
-        }
+    img:hover{
+        filter: invert(37%) sepia(65%) saturate(7486%) hue-rotate(259deg) brightness(90%) contrast(100%);    
     }
 }

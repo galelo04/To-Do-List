@@ -1,8 +1,12 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Roboto,System-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',  Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family:"Montserrat", sans-serif;
+    font-weight: 500;
 }
 body{
     height: 100vh;
@@ -11,20 +15,10 @@ body{
 p{
     /* width: min-content; */
 }
-button{
+img , button{
     cursor: pointer;
 }
-dialog{
-    padding: 50px;
-    position: absolute;
-    font-size: 2rem; 
-    border-radius: 10px;
-    width: 30%;
-    top:50%;
-    left: 50%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-}
+
 ul{
     list-style: none;
 }
@@ -105,10 +99,21 @@ input{
         color:white;
         margin: 1rem;
         margin-left: 0 ;
+        width: 40%;
         font-size: 2rem;
-        width: max-content;
         padding: .625rem 1rem;
         border-radius: .625rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        button{
+            border:none;
+            background-color: #8731ef;
+            color:white;
+            padding: 1rem 2rem;
+            border-radius: .5rem;
+            font-size: 1rem;
+        }
     }
     .mainContent{
         display: flex;
@@ -138,7 +143,6 @@ input{
             border-radius: .625rem;
             padding:1rem;
             font-size: 2rem;
-            /* background-color: rgb(96, 96, 96); */
             .taskTitle{
                 font-size: 3rem;
                 font-weight: bold;
@@ -213,15 +217,111 @@ input{
 }
 
 #newTaskBtn , #newListBtn , .editBtn , .removeBtn{
-    border: none;
-    background: transparent;
-    img{
-        width: 3rem; 
-        height: 3rem;
-        /* pointer-events: none; */
-        filter: invert(30%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(90%) contrast(100%);
+
+    width: 3rem; 
+    height: 3rem;
+    /* pointer-events: none; */
+    filter: invert(30%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(90%) contrast(100%);
+    
+}
+#newTaskBtn:hover , #newListBtn:hover , .editBtn:hover , .removeBtn:hover{
+    filter: invert(37%) sepia(65%) saturate(7486%) hue-rotate(259deg) brightness(90%) contrast(100%);    
+}
+#closeTaskDialogBtn,#closeListDialogBtn{
+    width: 3rem;
+    height: 3rem;
+    position: absolute;
+    right: 1rem ;
+    top:1rem;
+    filter: invert(15%) sepia(1) saturate(10000%) hue-rotate(-10deg) brightness(0.9) contrast(100%);
+}
+
+.today{
+    color:rgb(251, 56, 56);
+}
+.tomorrow{
+    color: rgb(105, 105, 229);
+}
+.passed{
+    color:black;
+}
+.normal{
+    color:rgb(109, 205, 109);
+}
+.done{
+    text-decoration: line-through;
+    text-decoration-color: black;
+}
+dialog{
+    padding: 50px;
+    position: absolute;
+    font-size: 2rem; 
+    border-radius: 10px;
+    width: 30%;
+    height: 70%;
+    top:50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    background-color: black;
+    border: 2px solid gray;
+}
+form{
+    height: 100%;
+    width: 100%;
+    color:white;
+    ul{
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        li{
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+        
     }
-    img:hover{
-        filter: invert(37%) sepia(65%) saturate(7486%) hue-rotate(259deg) brightness(90%) contrast(100%);    
+    input,select,textarea{
+        border: 2px solid gray;
+        border-radius: .5rem;
+        background-color: gray;
+        color:white;
+        padding: .5rem;
+        font-size: 1.5rem;
     }
+    textarea{
+        height: 4rem;
+        overflow: hidden;
+    }
+    textarea:hover , textarea:focus{
+        overflow: auto;
+    }
+
+    button{
+        border:none;
+        padding : .7rem 2rem;
+        align-self: center;
+        border-radius: 1rem;
+        font-size: 1.5rem;
+        background-color: white;
+        margin-top: 1rem;
+    }
+}
+::backdrop{
+    background-color: black;
+    opacity: .4;
+}
+.descriptionContent{
+    border: 1px solid white;
+    width:100%;
+    height: 8rem;
+    overflow: hidden;
+    border-radius: 1rem;
+    padding:1rem;
+}
+.descriptionContent:hover , .descriptionContent:focus{
+    overflow: auto;
+
 }

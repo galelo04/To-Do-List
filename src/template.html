@@ -18,9 +18,8 @@
         <div class="listsContainer">
           <div class="newList">
             <div class="title">Lists</div>
-            <button id="newListBtn">
-              <img src="assets/plus-circle-outline.svg" alt="" />
-            </button>
+
+            <img id="newListBtn" src="assets/plus-circle-outline.svg" alt="" />
           </div>
           <div class="lists"></div>
         </div>
@@ -28,13 +27,15 @@
       <div class="main">
         <div class="header">
           <div class="listTitle"></div>
+          <div class="resetStorage">
+            <button id="resetBtn">Reset Storage</button>
+          </div>
         </div>
         <div class="mainContent">
           <div class="listOrg">
             <div class="tasks"></div>
-            <button id="newTaskBtn">
-              <img src="assets/plus-circle-outline.svg" alt="" />
-            </button>
+
+            <img id="newTaskBtn" src="assets/plus-circle-outline.svg" alt="" />
           </div>
           <div class="taskViewTab">
             <div class="taskView"></div>
@@ -44,6 +45,7 @@
       <dialog class="taskDialog">
         <form action="" method="dialog" class="taskForm">
           <input type="hidden" id="taskId" name="taskId" />
+          <input type="hidden" id="listId" name="listId" />
           <input type="hidden" id="dialogType" name="dialogType" />
           <ul>
             <li>
@@ -52,7 +54,13 @@
             </li>
             <li>
               <label for="taskDescription">Description</label>
-              <textarea id="taskDescription" name="desc"></textarea>
+              <textarea
+                id="taskDescription"
+                name="desc"
+                maxlength="150"
+                cols="50"
+                rows="5"
+              ></textarea>
             </li>
             <li>
               <label for="taskPriority">Priority</label>
@@ -64,14 +72,23 @@
             </li>
             <li>
               <label for="taskDueDate">Due Date</label>
-              <input type="datetime-local" name="date" id="taskDueDate" />
+              <input
+                type="datetime-local"
+                name="date"
+                id="taskDueDate"
+                required
+              />
             </li>
             <li>
               <button type="submit" id="confirmTaskBtn">confirm</button>
-              <button type="button" id="closeTaskDialogBtn">Close</button>
             </li>
           </ul>
         </form>
+        <img
+          src="assets/alpha-x-circle-outline.svg"
+          id="closeTaskDialogBtn"
+          alt=""
+        />
       </dialog>
       <dialog class="listDialog">
         <form action="" method="dialog" class="listForm">
@@ -82,10 +99,14 @@
             </li>
             <li>
               <button type="submit" id="confirmListBtn">confirm</button>
-              <button type="button" id="closeListDialogBtn">Close</button>
             </li>
           </ul>
         </form>
+        <img
+          src="assets/alpha-x-circle-outline.svg"
+          id="closeListDialogBtn"
+          alt=""
+        />
       </dialog>
     </div>
   </body>

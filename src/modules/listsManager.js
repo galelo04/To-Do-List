@@ -1,33 +1,36 @@
-const listsManager = (function(){
-    const lists = new Array(100).fill(null);
-    let _currentList ;
-    let _lastId =0;
+import { List } from './tasksList';
 
-    const getCurrentList = ()=> _currentList;
-    const setCurrentList = listId =>{
-        _currentList = lists[listId]
-        console.log("lists",_currentList.getTitle());
-    };
+const listsManager = (function () {
+  const lists = [];
+  let _lastId = 0;
+  const addTask = (task, listId) => {
+    return lists[listId].addTask(task);
+  };
+  const removeTask = (listId, taskId) => {
+    lists[listId].removeTask(taskId);
+  };
+  const createList = (title) => {
+    const list = List(title);
+    lists.push(list);
+    list.setId(_lastId);
+    return _lastId++;
+  };
+  const removeList = (listId) => {
+    lists[listId] = lists[--_lastId];
+    lists[listId].setId(listId);
+    lists.pop();
+  };
+  const getList = (listId) => lists[listId];
+  const getLists = () => lists;
 
-    const addTaskCurrent = task => _currentList.addTask(task);
-    const addList = list =>{
-        list.setId(_lastId);
-        lists[_lastId++]=list;
-        _currentList = list;
-    };
-    const removeTask = (listId , taskId)=>{
-        return lists[listId].removeTask(taskId);
-    };
-    const removeList = listId =>{
-        lists[listId]=lists[--_lastId];
-        lists[_lastId]=null;
-    };
-    const changeListOfTask = (taskId,srcId,destId) =>{
-        lists[destId].addTask(lists[srcId].removeTask(taskId));
-    }
-    const getLists = ()=>lists;
-
-    return{getCurrentList,setCurrentList,addList,removeList,addTaskCurrent,changeListOfTask,getLists,removeTask};
+  return {
+    createList,
+    removeList,
+    addTask,
+    removeTask,
+    getLists,
+    getList,
+  };
 })();
 
-export {listsManager};
+export { listsManager };

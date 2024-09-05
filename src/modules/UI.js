@@ -1,4 +1,4 @@
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import { applicationManager } from './applicationManager';
 import { Renderer } from './renderer';
 
@@ -13,15 +13,16 @@ const UI = (function () {
   let listForm;
   let closeTaskDialogBtn;
   let closeListDialogBtn;
-  let currentList;
-  let selectedTask;
+  let currentListId;
+  let selectedTaskId;
+  let resetBtn;
 
   const init = () => {
-    currentList = applicationManager.getCurrentList();
-    selectedTask = null;
+    currentListId = 0;
+    selectedTaskId = null;
     cacheDOM();
     bindEvents();
-    Renderer.render(currentList, selectedTask);
+    Renderer.render(currentListId, selectedTaskId);
   };
   const cacheDOM = () => {
     newTaskBtn = document.querySelector('#newTaskBtn');
@@ -34,6 +35,7 @@ const UI = (function () {
     listForm = document.querySelector('.listForm');
     closeTaskDialogBtn = document.querySelector('#closeTaskDialogBtn');
     closeListDialogBtn = document.querySelector('#closeListDialogBtn');
+    resetBtn = document.querySelector('#resetBtn');
   };
   const bindEvents = () => {
     newTaskBtn.addEventListener('click', () => {
@@ -41,7 +43,6 @@ const UI = (function () {
       taskForm.title.value = '';
       taskForm.desc.value = '';
       taskForm.date.value = '';
-      taskForm.priority.value = '';
       taskDialog.showModal();
     });
     newListBtn.addEventListener('click', () => {
@@ -62,12 +63,9 @@ const UI = (function () {
     tasksTab.addEventListener('click', editTask);
     tasksTab.addEventListener('click', removeTask);
     tasksTab.addEventListener('click', changeSelectedTask);
+    tasksTab.addEventListener('click', completeTask);
     listsTab.addEventListener('click', changeCurrentList);
-  };
-  const render = () => {
-    renderTasks();
-    renderSelectedTask();
-    renderLists();
+    resetBtn.addEventListener('click', resetStorage);
   };
 
   const addTask = (event) => {
@@ -75,84 +73,104 @@ const UI = (function () {
 
     const title = taskForm.title.value;
     const description = taskForm.desc.value;
-    const dueDate = taskForm.date.value;
+    const dueDate = parseISO(taskForm.date.value);
     const priority = taskForm.priority.value;
-    selectedTask = applicationManager.newTask(
+    selectedTaskId = applicationManager.newTask(
+      currentListId,
       title,
       description,
       dueDate,
       priority
     );
-    Renderer.render(currentList, selectedTask);
+    Renderer.render(currentListId, selectedTaskId);
     taskDialog.close();
   };
   const editTask = (event) => {
-    const editButton = event.target.closest('.editBtn');
-    if (editButton) {
-      const taskEl = editButton.closest('.task');
+    if (event.target && event.target.classList.contains('editBtn')) {
+      const taskEl = event.target.closest('.task');
       if (taskEl) {
         taskForm.dialogType.value = 'edit';
         const taskId = taskEl.getAttribute('task-id');
-        const task = currentList.getTask(taskId);
+        const listId = taskEl.getAttribute('list-id');
+        const task = applicationManager.getTask(listId, taskId);
         taskForm.title.value = task.getTitle();
         taskForm.desc.value = task.getDescription();
-        taskForm.date.value = task.getDueDate();
+        taskForm.date.value = format(task.getDueDate(), "yyyy-MM-dd'T'HH:mm");
         taskForm.priority.value = task.getPriority();
         taskForm.taskId.value = taskId;
+        taskForm.listId.value = listId;
         taskDialog.showModal();
       }
     }
   };
   const removeTask = (event) => {
-    const removeButton = event.target.closest('.removeBtn');
-    if (removeButton) {
-      const taskEl = removeButton.closest('.task');
+    if (event.target && event.target.classList.contains('removeBtn')) {
+      const taskEl = event.target.closest('.task');
       if (taskEl) {
         const listId = taskEl.getAttribute('list-id');
         const taskId = taskEl.getAttribute('task-id');
-        if (applicationManager.removeTask(listId, taskId) === selectedTask) {
-          selectedTask = null;
-        }
-        Renderer.render(currentList, selectedTask);
+        applicationManager.removeTask(listId, taskId);
+
+        selectedTaskId = null;
+
+        Renderer.render(currentListId, selectedTaskId);
       }
     }
   };
   const confirmEdit = (event) => {
     event.preventDefault();
     const taskId = taskForm.taskId.value;
-    const task = currentList.getTask(taskId);
-    task.setTitle(taskForm.title.value);
-    task.setDescription(taskForm.desc.value);
-    task.setDueDate(taskForm.date.value);
-    task.setPriority(taskForm.priority.value);
+    const listId = taskForm.listId.value;
+    applicationManager.editTask(
+      listId,
+      taskId,
+      taskForm.title.value,
+      taskForm.desc.value,
+      parseISO(taskForm.date.value),
+      taskForm.priority.value
+    );
 
     taskDialog.close();
-    Renderer.render(currentList, selectedTask);
+    Renderer.render(currentListId, selectedTaskId);
   };
   const addList = (event) => {
     event.preventDefault();
-
     const title = listForm.title.value;
-    applicationManager.newList(title);
-    currentList = applicationManager.getCurrentList();
-    selectedTask = null;
-    Renderer.render(currentList, selectedTask);
+    currentListId = applicationManager.newList(title);
+    selectedTaskId = null;
+    Renderer.render(currentListId, selectedTaskId);
     listDialog.close();
   };
   const changeSelectedTask = (event) => {
     if (event.target && event.target.classList.contains('task')) {
-      selectedTask = currentList.getTask(event.target.getAttribute('task-id'));
-      renderSelectedTask();
+      selectedTaskId = event.target.getAttribute('task-id');
+      Renderer.render(currentListId, selectedTaskId);
     }
   };
   const changeCurrentList = (event) => {
     const list = event.target.closest('.list');
     if (list) {
-      applicationManager.setCurrentList(list.getAttribute('list-id'));
-      currentList = applicationManager.getCurrentList();
-      selectedTask = currentList.getTask(0);
-      Renderer.render(currentList, selectedTask);
+      currentListId = list.getAttribute('list-id');
+      selectedTaskId = null;
+      Renderer.render(currentListId, selectedTaskId);
     }
+  };
+  const completeTask = (event) => {
+    if (event.target && event.target.classList.contains('checkboxLabel')) {
+      const taskEl = event.target.closest('.task');
+      const input = event.target.previousElementSibling;
+      if (taskEl && input) {
+        const listId = taskEl.getAttribute('list-id');
+        const taskId = taskEl.getAttribute('task-id');
+        const task = applicationManager.getTask(listId, taskId);
+        task.toggleDone(!input.checked);
+        Renderer.render(currentListId, selectedTaskId);
+      }
+    }
+  };
+  const resetStorage = () => {
+    localStorage.clear();
+    location.reload();
   };
   return { init };
 })();
